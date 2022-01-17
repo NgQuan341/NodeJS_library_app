@@ -1,0 +1,3 @@
+{
+    "mongoURI":"mongodb+srv://huannguyen:huanng@library.7evns.mongodb.net/NodeProject?retryWrites=true&w=majority"
+}

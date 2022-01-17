@@ -3,8 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-// require routers here
-const indexRouter = require('./routes/index');
+
 
 const connectDB = require('./config/db');
 var passport = require('passport');
@@ -33,7 +32,9 @@ connectDB();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+//Routes
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/user')); 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

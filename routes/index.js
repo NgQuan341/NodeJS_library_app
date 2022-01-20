@@ -3,7 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var local_controller = require('../controllers/loginLocalController');
 var user_controller = require('../controllers/userController');
-var twitter_controller= require('../controllers/loginTwitterController');
+var github_controller= require('../controllers/loginGithubController');
 
 
 router.get('/', user_controller.checkAuthenticated, user_controller.homepage);
@@ -16,7 +16,7 @@ router.post('/login',
     res.redirect('/');
   });
 
-  // login with Twitter
+  // login with Github
   router.get('/login/github', passport.authenticate('github'));
   
   router.get('/login/github/callback',

@@ -49,7 +49,7 @@ exports.sendmailFogot = [
                     if(result){
                         code = Math.floor(Math.random() * (999999 - 100000)) + 100000;
                         console.log(code);
-                        // mailer.sendMail(req.body.email, code);
+                        mailer.sendMail(req.body.email, code);
                         res.render('login_views/verifyforgot.ejs', { title: 'Verify Account', account: result })
                     }
                     else{

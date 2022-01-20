@@ -1,8 +1,10 @@
+const { Router } = require('express');
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var local_controller = require('../controllers/loginLocalController');
 var user_controller = require('../controllers/userController');
+var email_controller = require('../controllers/registerController');
 
 router.get('/', user_controller.checkAuthenticated, user_controller.homepage);
 
@@ -15,5 +17,12 @@ router.post('/login',
   });
 
 router.get('/logout', user_controller.logout );
+router.get('/sendEmail', function (req, res, next) {
+  res.render('email/getEmail.ejs', { title: "Create Account" });
+  });
+
+router.post('/sendEmail', email_controller.signup);
+
+router.post('/verify', email_controller.createAccount);
 
 module.exports = router;

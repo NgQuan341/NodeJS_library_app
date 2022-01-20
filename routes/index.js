@@ -3,6 +3,8 @@ var router = express.Router();
 var passport = require('passport');
 var local_controller = require('../controllers/loginLocalController');
 var user_controller = require('../controllers/userController');
+var twitter_controller= require('../controllers/loginTwitterController');
+
 
 router.get('/', user_controller.checkAuthenticated, user_controller.homepage);
 
@@ -13,6 +15,15 @@ router.post('/login',
   function (req, res) {
     res.redirect('/');
   });
+
+  // login with Twitter
+  router.get('/login/github', passport.authenticate('github'));
+  
+  router.get('/login/github/callback',
+   passport.authenticate('github', { failureRedirect: '/login', failureMessage: true }),
+   function (req, res) {
+     res.redirect('/');
+   }); 
 
 router.get('/logout', user_controller.logout );
 

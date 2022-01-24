@@ -11,6 +11,9 @@ var passport = require('passport');
 
 const app = express();
 
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -39,6 +42,10 @@ app.use('/', indexRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // error handler
 app.use(function(err, req, res, next) {

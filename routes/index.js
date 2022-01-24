@@ -3,7 +3,9 @@ var router = express.Router();
 var passport = require('passport');
 var local_controller = require('../controllers/loginLocalController');
 var user_controller = require('../controllers/userController');
+var google_controller = require('../controllers/loginGoogleController');
 var github_controller= require('../controllers/loginGithubController');
+
 
 
 // Login
@@ -17,6 +19,15 @@ router.post('/login',
     res.redirect('/');
   });
 
+
+  // login with Google
+  router.get('/login/google', passport.authenticate('google',{scope: 'https://www.googleapis.com/auth/plus.login'}));
+  
+  router.get('/login/google/callback',
+   passport.authenticate('google', { failureRedirect: '/login', failureMessage: true }),
+  function (req, res) {
+     res.redirect('/');
+   }); 
 
   // login with Github
   router.get('/login/github', passport.authenticate('github'));

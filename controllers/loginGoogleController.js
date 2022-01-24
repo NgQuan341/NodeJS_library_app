@@ -10,7 +10,7 @@ var User = require('../models/user');
       },
       function(token, refreshToken, profile, done) {
         process.nextTick(function() {
-            User.findOne({ 'google.id' : profile.id}, function(err, user) {
+            User.findOne({ googleID: profile.id}, function(err, user) {
                 if(err)
                     return done(err);
 

@@ -1,14 +1,12 @@
 const createError = require('http-errors');
+const flash = require('connect-flash');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
-
-const connectDB = require('./config/db');
+const app = express();
 var passport = require('passport');
 
-const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,23 +16,34 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(require('express-session')({ secret: 'secret', resave: true, saveUninitialized: false }));
+
+// Connect flash 
+app.use(flash());
+
 app.use(function (req, res, next) {
   var msgs = req.session.messages || [];
+  var err = req.session.errors || [];
+  res.locals.success_msg = req.flash('success_msg');
   res.locals.messages = msgs;
+  res.locals.errors = err;
   res.locals.hasMessages = !!msgs.length;
   req.session.messages = [];
   next();
 });
+
 app.use(passport.authenticate('session'));
-//connect mongoDB
+
+//DB Config
+const connectDB = require('./config/db');
+//Connect mongoDB
 connectDB();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 //Routes
 app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/user')); 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

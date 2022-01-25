@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 // require routers here
 const indexRouter = require('./routes/index');
-
 const connectDB = require('./config/db');
 var passport = require('passport');
 
@@ -18,7 +17,6 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 app.use(function (req, res, next) {
   var msgs = req.session.messages || [];
@@ -51,4 +49,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//app.listen(3000);
 module.exports = app;
